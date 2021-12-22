@@ -1,0 +1,5 @@
+sqlserver/docker/*
+!/sqlserver/docker/.gitignore
+
+postgresql/docker/*
+!/postgresql/docker/.gitignore
