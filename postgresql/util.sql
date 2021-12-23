@@ -16,7 +16,7 @@ BEGIN
 END;
 $$ LANGUAGE plv8;
 
-CREATE FUNCTION zenkaku2hankakukana (a CHAR)
+CREATE FUNCTION zenkaku2hankakukana (c CHAR)
 RETURNS VARCHAR(2) AS $$
 DECLARE
     ret VARCHAR(2);
@@ -188,12 +188,140 @@ BEGIN
             ret := 'ｭ';
         WHEN 'ョ' THEN
             ret := 'ｮ';
-        -- その他 伸ばし棒
+        -- その他 伸ばし棒ー（マイナスとは違う）
         WHEN 'ー' THEN
             ret := 'ｰ';
+        -- アルファベット
+        -- 小文字
+        WHEN 'ａ' THEN
+            ret := 'a';
+        WHEN 'ｂ' THEN
+            ret := 'b';
+        WHEN 'ｃ' THEN
+            ret := 'c';
+        WHEN 'ｄ' THEN
+            ret := 'd';
+        WHEN 'ｅ' THEN
+            ret := 'e';
+        WHEN 'ｆ' THEN
+            ret := 'f';
+        WHEN 'ｇ' THEN
+            ret := 'g';
+        WHEN 'ｈ' THEN
+            ret := 'h';
+        WHEN 'ｉ' THEN
+            ret := 'i';
+        WHEN 'ｊ' THEN
+            ret := 'j';
+        WHEN 'ｋ' THEN
+            ret := 'k';
+        WHEN 'ｌ' THEN
+            ret := 'l';
+        WHEN 'ｍ' THEN
+            ret := 'm';
+        WHEN 'ｎ' THEN
+            ret := 'n';
+        WHEN 'ｏ' THEN
+            ret := 'o';
+        WHEN 'ｐ' THEN
+            ret := 'p';
+        WHEN 'ｑ' THEN
+            ret := 'q';
+        WHEN 'ｒ' THEN
+            ret := 'r';
+        WHEN 'ｓ' THEN
+            ret := 's';
+        WHEN 'ｔ' THEN
+            ret := 't';
+        WHEN 'ｕ' THEN
+            ret := 'u';
+        WHEN 'ｖ' THEN
+            ret := 'v';
+        WHEN 'ｗ' THEN
+            ret := 'w';
+        WHEN 'ｘ' THEN
+            ret := 'x';
+        WHEN 'ｙ' THEN
+            ret := 'y';
+        WHEN 'ｚ' THEN
+            ret := 'z';
+        -- 大文字
+        WHEN 'Ａ' THEN
+            ret := 'A';
+        WHEN 'Ｂ' THEN
+            ret := 'B';
+        WHEN 'Ｃ' THEN
+            ret := 'C';
+        WHEN 'Ｄ' THEN
+            ret := 'D';
+        WHEN 'Ｅ' THEN
+            ret := 'E';
+        WHEN 'Ｆ' THEN
+            ret := 'F';
+        WHEN 'Ｇ' THEN
+            ret := 'G';
+        WHEN 'Ｈ' THEN
+            ret := 'H';
+        WHEN 'Ｉ' THEN
+            ret := 'I';
+        WHEN 'Ｊ' THEN
+            ret := 'J';
+        WHEN 'Ｋ' THEN
+            ret := 'K';
+        WHEN 'Ｌ' THEN
+            ret := 'L';
+        WHEN 'Ｍ' THEN
+            ret := 'M';
+        WHEN 'Ｎ' THEN
+            ret := 'N';
+        WHEN 'Ｏ' THEN
+            ret := 'O';
+        WHEN 'Ｐ' THEN
+            ret := 'P';
+        WHEN 'Ｑ' THEN
+            ret := 'Q';
+        WHEN 'Ｒ' THEN
+            ret := 'R';
+        WHEN 'Ｓ' THEN
+            ret := 'S';
+        WHEN 'Ｔ' THEN
+            ret := 'T';
+        WHEN 'Ｕ' THEN
+            ret := 'U';
+        WHEN 'Ｖ' THEN
+            ret := 'V';
+        WHEN 'Ｗ' THEN
+            ret := 'W';
+        WHEN 'Ｘ' THEN
+            ret := 'X';
+        WHEN 'Ｙ' THEN
+            ret := 'Y';
+        WHEN 'Ｚ' THEN
+            ret := 'Z';
+        -- 数字
+        WHEN '０' THEN
+            ret := '0';
+        WHEN '１' THEN
+            ret := '1';
+        WHEN '２' THEN
+            ret := '2';
+        WHEN '３' THEN
+            ret := '3';
+        WHEN '４' THEN
+            ret := '4';
+        WHEN '５' THEN
+            ret := '5';
+        WHEN '６' THEN
+            ret := '6';
+        WHEN '７' THEN
+            ret := '7';
+        WHEN '８' THEN
+            ret := '8';
+        WHEN '９' THEN
+            ret := '9';
         ELSE
             -- 定義されていないものはそのまま返す
-            ret := a;
+            ret := c;
     END CASE;
     RETURN ret;
 END;
@@ -222,13 +350,13 @@ $$ LANGUAGE plpgsql;
 
 
 -- 半角を全角に変更する
-CREATE FUNCTION hankakukana2zenkaku (a VARCHAR(2))
+CREATE FUNCTION hankakukana2zenkaku (c VARCHAR(2))
 RETURNS CHAR(1) AS $$
 DECLARE
     ret CHAR(1);
 BEGIN
 
-    CASE a
+    CASE c
         -- ア行
         WHEN 'ｱ' THEN
             ret := 'ア';
@@ -397,9 +525,137 @@ BEGIN
         -- その他 伸ばし棒-(マイナス)とは違う
         WHEN 'ｰ' THEN
             ret := 'ー';
+        -- アルファベット
+        -- 小文字
+        WHEN 'a' THEN
+            ret := 'ａ';
+        WHEN 'b' THEN
+            ret := 'ｂ';
+        WHEN 'c' THEN
+            ret := 'ｃ';
+        WHEN 'd' THEN
+            ret := 'ｄ';
+        WHEN 'e' THEN
+            ret := 'ｅ';
+        WHEN 'f' THEN
+            ret := 'ｆ';
+        WHEN 'g' THEN
+            ret := 'ｇ';
+        WHEN 'h' THEN
+            ret := 'ｈ';
+        WHEN 'i' THEN
+            ret := 'ｉ';
+        WHEN 'j' THEN
+            ret := 'ｊ';
+        WHEN 'k' THEN
+            ret := 'ｋ';
+        WHEN 'l' THEN
+            ret := 'ｌ';
+        WHEN 'm' THEN
+            ret := 'ｍ';
+        WHEN 'n' THEN
+            ret := 'ｎ';
+        WHEN 'o' THEN
+            ret := 'ｏ';
+        WHEN 'p' THEN
+            ret := 'ｐ';
+        WHEN 'q' THEN
+            ret := 'ｑ';
+        WHEN 'r' THEN
+            ret := 'ｒ';
+        WHEN 's' THEN
+            ret := 'ｓ';
+        WHEN 't' THEN
+            ret := 'ｔ';
+        WHEN 'u' THEN
+            ret := 'ｕ';
+        WHEN 'v' THEN
+            ret := 'ｖ';
+        WHEN 'w' THEN
+            ret := 'ｗ';
+        WHEN 'x' THEN
+            ret := 'ｘ';
+        WHEN 'y' THEN
+            ret := 'ｙ';
+        WHEN 'z' THEN
+            ret := 'ｚ';
+        -- 大文字
+        WHEN 'A' THEN
+            ret := 'Ａ';
+        WHEN 'B' THEN
+            ret := 'Ｂ';
+        WHEN 'C' THEN
+            ret := 'Ｃ';
+        WHEN 'D' THEN
+            ret := 'Ｄ';
+        WHEN 'E' THEN
+            ret := 'Ｅ';
+        WHEN 'F' THEN
+            ret := 'Ｆ';
+        WHEN 'G' THEN
+            ret := 'Ｇ';
+        WHEN 'H' THEN
+            ret := 'Ｈ';
+        WHEN 'I' THEN
+            ret := 'Ｉ';
+        WHEN 'J' THEN
+            ret := 'Ｊ';
+        WHEN 'K' THEN
+            ret := 'Ｋ';
+        WHEN 'L' THEN
+            ret := 'Ｌ';
+        WHEN 'M' THEN
+            ret := 'Ｍ';
+        WHEN 'N' THEN
+            ret := 'Ｎ';
+        WHEN 'O' THEN
+            ret := 'Ｏ';
+        WHEN 'P' THEN
+            ret := 'Ｐ';
+        WHEN 'Q' THEN
+            ret := 'Ｑ';
+        WHEN 'R' THEN
+            ret := 'Ｒ';
+        WHEN 'S' THEN
+            ret := 'Ｓ';
+        WHEN 'T' THEN
+            ret := 'Ｔ';
+        WHEN 'U' THEN
+            ret := 'Ｕ';
+        WHEN 'V' THEN
+            ret := 'Ｖ';
+        WHEN 'W' THEN
+            ret := 'Ｗ';
+        WHEN 'X' THEN
+            ret := 'Ｘ';
+        WHEN 'Y' THEN
+            ret := 'Ｙ';
+        WHEN 'Z' THEN
+            ret := 'Ｚ';
+        -- 数字
+        WHEN '0' THEN
+            ret := '０';
+        WHEN '1' THEN
+            ret := '１';
+        WHEN '2' THEN
+            ret := '２';
+        WHEN '3' THEN
+            ret := '３';
+        WHEN '4' THEN
+            ret := '４';
+        WHEN '5' THEN
+            ret := '５';
+        WHEN '6' THEN
+            ret := '６';
+        WHEN '7' THEN
+            ret := '７';
+        WHEN '8' THEN
+            ret := '８';
+        WHEN '9' THEN
+            ret := '９';
         ELSE
             -- 定義されていないものはそのまま返す
-            ret := a;
+            ret := c;
     END CASE;
     RETURN ret;
 END;
