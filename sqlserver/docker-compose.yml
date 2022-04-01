@@ -1,0 +1,17 @@
+version: '3.3'
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=J7vybovWx:3qstsj
+      - MSSQL_PID=Express # 無料版
+      - MSSQL_COLLATION=Japanese_CI_AS
+      - DB_NAME=DEMO
+    volumes:
+      - ./docker/mssqlserver/initdb.d:/docker-entrypoint-initdb.d
+      - ./docker/mssqlserver/data:/var/opt/mssql/data
+      - ./docker/mssqlserver/log:/var/opt/mssql/log
+      - ./docker/mssqlserver/secrets:/var/opt/mssql/secrets
