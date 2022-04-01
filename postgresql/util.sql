@@ -16,6 +16,409 @@ BEGIN
 END;
 $$ LANGUAGE plv8;
 
+-- 全角ひらがなを全角カタカナに変更する
+CREATE FUNCTION zenkakuhiragana2zenkakukatakana (c CHAR(1))
+RETURNS CHAR(1) AS $$
+DECLARE
+    ret CHAR(1);
+BEGIN
+
+    CASE c
+        -- あ行
+        WHEN 'あ' THEN
+            ret := 'ア';
+        WHEN 'い' THEN
+            ret := 'イ';
+        WHEN 'う' THEN
+            ret := 'ウ';
+        WHEN 'え' THEN
+            ret := 'エ';
+        WHEN 'お' THEN
+            ret := 'オ';
+        -- か行
+        WHEN 'か' THEN
+            ret := 'カ';
+        WHEN 'き' THEN
+            ret := 'キ';
+        WHEN 'く' THEN
+            ret := 'ク';
+        WHEN 'け' THEN
+            ret := 'ケ';
+        WHEN 'こ' THEN
+            ret := 'コ';
+        -- さ行
+        WHEN 'さ' THEN
+            ret := 'サ';
+        WHEN 'し' THEN
+            ret := 'シ';
+        WHEN 'す' THEN
+            ret := 'ス';
+        WHEN 'せ' THEN
+            ret := 'セ';
+        WHEN 'そ' THEN
+            ret := 'ソ';
+        -- た行
+        WHEN 'た' THEN
+            ret := 'タ';
+        WHEN 'ち' THEN
+            ret := 'チ';
+        WHEN 'つ' THEN
+            ret := 'ツ';
+        WHEN 'て' THEN
+            ret := 'ﾃ';
+        WHEN 'と' THEN
+            ret := 'ト';
+        -- な行
+        WHEN 'な' THEN
+            ret := 'ナ';
+        WHEN 'に' THEN
+            ret := 'ニ';
+        WHEN 'ぬ' THEN
+            ret := 'ヌ';
+        WHEN 'ね' THEN
+            ret := 'ネ';
+        WHEN 'の' THEN
+            ret := 'ノ';
+        -- は行
+        WHEN 'は' THEN
+            ret := 'ハ';
+        WHEN 'ひ' THEN
+            ret := 'ヒ';
+        WHEN 'ふ' THEN
+            ret := 'フ';
+        WHEN 'へ' THEN
+            ret := 'ヘ';
+        WHEN 'ほ' THEN
+            ret := 'ホ';
+        -- ま行
+        WHEN 'ま' THEN
+            ret := 'マ';
+        WHEN 'み' THEN
+            ret := 'ミ';
+        WHEN 'む' THEN
+            ret := 'ム';
+        WHEN 'め' THEN
+            ret := 'メ';
+        WHEN 'も' THEN
+            ret := 'モ';
+        -- や行
+        WHEN 'や' THEN
+            ret := 'ヤ';
+        WHEN 'ゆ' THEN
+            ret := 'ユ';
+        WHEN 'よ' THEN
+            ret := 'ヨ';
+        -- わ行
+        WHEN 'わ' THEN
+            ret := 'ワ';
+        WHEN 'を' THEN
+            ret := 'ヲ';
+        WHEN 'ん' THEN
+            ret := 'ン';
+        -- が行
+        WHEN 'が' THEN
+            ret := 'ガ';
+        WHEN 'ぎ' THEN
+            ret := 'ギ';
+        WHEN 'ぐ' THEN
+            ret := 'グ';
+        WHEN 'げ' THEN
+            ret := 'ゲ';
+        WHEN 'ご' THEN
+            ret := 'ゴ';
+        -- ざ行
+        WHEN 'ざ' THEN
+            ret := 'ザ';
+        WHEN 'じ' THEN
+            ret := 'ジ';
+        WHEN 'ず' THEN
+            ret := 'ズ';
+        WHEN 'ぜ' THEN
+            ret := 'ゼ';
+        WHEN 'ぞ' THEN
+            ret := 'ゾ';
+        -- ダ行
+        WHEN 'だ' THEN
+            ret := 'ダ';
+        WHEN 'ぢ' THEN
+            ret := 'ヂ';
+        WHEN 'づ' THEN
+            ret := 'ヅ';
+        WHEN 'で' THEN
+            ret := 'デ';
+        WHEN 'ど' THEN
+            ret := 'ド';
+        -- ば行
+        WHEN 'ば' THEN
+            ret := 'バ';
+        WHEN 'び' THEN
+            ret := 'ビ';
+        WHEN 'ぶ' THEN
+            ret := 'ブ';
+        WHEN 'べ' THEN
+            ret := 'ベ';
+        WHEN 'ぼ' THEN
+            ret := 'ボ';
+        -- ぱ行
+        WHEN 'ぱ' THEN
+            ret := 'パ';
+        WHEN 'ぴ' THEN
+            ret := 'ピ';
+        WHEN 'ぷ' THEN
+            ret := 'プ';
+        WHEN 'ぺ' THEN
+            ret := 'ペ';
+        WHEN 'ぽ' THEN
+            ret := 'ポ';
+        -- 小文字
+        WHEN 'ぁ' THEN
+            ret := 'ァ';
+        WHEN 'ぃ' THEN
+            ret := 'ィ';
+        WHEN 'ぅ' THEN
+            ret := 'ゥ';
+        WHEN 'ぇ' THEN
+            ret := 'ェ';
+        WHEN 'ぉ' THEN
+            ret := 'ォ';
+        WHEN 'っ' THEN
+            ret := 'ッ';
+        WHEN 'ゃ' THEN
+            ret := 'ャ';
+        WHEN 'ゅ' THEN
+            ret := 'ュ';
+        WHEN 'ょ' THEN
+            ret := 'ョ';
+        ELSE
+            -- 定義されていないものはそのまま返す
+            ret := c;
+    END CASE;
+    RETURN ret;
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;
+
+-- 全角ひらがな文字列を全角カタカナ文字列に変更する関数。
+CREATE FUNCTION zenkakuhiragana2zenkakukatakana_string (str TEXT)
+RETURNS TEXT AS $$
+DECLARE
+    ret TEXT;
+    i INTEGER := 1;
+    -- 何文字取るか
+    cap INTEGER := 1;
+BEGIN
+
+    WHILE i <= char_length(str)
+    LOOP
+        ret := concat(ret, zenkakuhiragana2zenkakukatakana(SUBSTRING(str, i, cap)));
+        -- 取った数だけ進める
+        i := i + cap;
+    END LOOP;
+
+    RETURN ret;
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;
+
+-- 全角カタカナを全角ひらがなに変更する
+CREATE FUNCTION zenkakukatakana2zenkakuhiragana (c CHAR)
+RETURNS CHAR AS $$
+DECLARE
+    ret CHAR;
+BEGIN
+    CASE c
+        -- ア行
+        WHEN 'ア' THEN
+            ret := 'あ';
+        WHEN 'イ' THEN
+            ret := 'い';
+        WHEN 'ウ' THEN
+            ret := 'う';
+        WHEN 'エ' THEN
+            ret := 'え';
+        WHEN 'オ' THEN
+            ret := 'お';
+        -- カ行
+        WHEN 'カ' THEN
+            ret := 'か';
+        WHEN 'キ' THEN
+            ret := 'き';
+        WHEN 'ク' THEN
+            ret := 'く';
+        WHEN 'ケ' THEN
+            ret := 'け';
+        WHEN 'コ' THEN
+            ret := 'こ';
+        -- サ行
+        WHEN 'サ' THEN
+            ret := 'さ';
+        WHEN 'シ' THEN
+            ret := 'し';
+        WHEN 'ス' THEN
+            ret := 'す';
+        WHEN 'セ' THEN
+            ret := 'せ';
+        WHEN 'ソ' THEN
+            ret := 'そ';
+        -- タ行
+        WHEN 'タ' THEN
+            ret := 'た';
+        WHEN 'チ' THEN
+            ret := 'ち';
+        WHEN 'ツ' THEN
+            ret := 'つ';
+        WHEN 'テ' THEN
+            ret := 'て';
+        WHEN 'ト' THEN
+            ret := 'と';
+        -- ナ行
+        WHEN 'ナ' THEN
+            ret := 'な';
+        WHEN 'ニ' THEN
+            ret := 'に';
+        WHEN 'ヌ' THEN
+            ret := 'ぬ';
+        WHEN 'ネ' THEN
+            ret := 'ね';
+        WHEN 'ノ' THEN
+            ret := 'の';
+        -- ハ行
+        WHEN 'ハ' THEN
+            ret := 'は';
+        WHEN 'ヒ' THEN
+            ret := 'ひ';
+        WHEN 'フ' THEN
+            ret := 'ふ';
+        WHEN 'ヘ' THEN
+            ret := 'へ';
+        WHEN 'ホ' THEN
+            ret := 'ほ';
+        -- マ行
+        WHEN 'マ' THEN
+            ret := 'ま';
+        WHEN 'ミ' THEN
+            ret := 'み';
+        WHEN 'ム' THEN
+            ret := 'む';
+        WHEN 'メ' THEN
+            ret := 'め';
+        WHEN 'モ' THEN
+            ret := 'も';
+        -- ヤ行
+        WHEN 'ヤ' THEN
+            ret := 'や';
+        WHEN 'ユ' THEN
+            ret := 'ゆ';
+        WHEN 'ヨ' THEN
+            ret := 'よ';
+        -- ワ行
+        WHEN 'ワ' THEN
+            ret := 'わ';
+        WHEN 'ヲ' THEN
+            ret := 'を';
+        WHEN 'ン' THEN
+            ret := 'ん';
+        -- ガ行
+        WHEN 'ガ' THEN
+            ret := 'がﾞ';
+        WHEN 'ギ' THEN
+            ret := 'ぎﾞ';
+        WHEN 'グ' THEN
+            ret := 'ぐﾞ';
+        WHEN 'ゲ' THEN
+            ret := 'げﾞ';
+        WHEN 'ゴ' THEN
+            ret := 'ごﾞ';
+        -- ザ行
+        WHEN 'ザ' THEN
+            ret := 'ざ';
+        WHEN 'ジ' THEN
+            ret := 'じ';
+        WHEN 'ズ' THEN
+            ret := 'ず';
+        WHEN 'ゼ' THEN
+            ret := 'ぜ';
+        WHEN 'ゾ' THEN
+            ret := 'ぞ';
+        -- ダ行
+        WHEN 'ダ' THEN
+            ret := 'だ';
+        WHEN 'ヂ' THEN
+            ret := 'ぢ';
+        WHEN 'ヅ' THEN
+            ret := 'づ';
+        WHEN 'デ' THEN
+            ret := 'で';
+        WHEN 'ド' THEN
+            ret := 'ど';
+        -- バ行
+        WHEN 'バ' THEN
+            ret := 'ば';
+        WHEN 'ビ' THEN
+            ret := 'び';
+        WHEN 'ブ' THEN
+            ret := 'ぶ';
+        WHEN 'ベ' THEN
+            ret := 'べ';
+        WHEN 'ボ' THEN
+            ret := 'ぼ';
+        -- パ行
+        WHEN 'パ' THEN
+            ret := 'ぱ';
+        WHEN 'ピ' THEN
+            ret := 'ぴ';
+        WHEN 'プ' THEN
+            ret := 'ぷ';
+        WHEN 'ペ' THEN
+            ret := 'ぺ';
+        WHEN 'ポ' THEN
+            ret := 'ぽ';
+        -- 小文字
+        WHEN 'ァ' THEN
+            ret := 'ぁ';
+        WHEN 'ィ' THEN
+            ret := 'ぃ';
+        WHEN 'ゥ' THEN
+            ret := 'ぅ';
+        WHEN 'ェ' THEN
+            ret := 'ぇ';
+        WHEN 'ォ' THEN
+            ret := 'ぉ';
+        WHEN 'ッ' THEN
+            ret := 'っ';
+        WHEN 'ャ' THEN
+            ret := 'ゃ';
+        WHEN 'ュ' THEN
+            ret := 'ゅ';
+        WHEN 'ョ' THEN
+            ret := 'ょ';
+        ELSE
+            -- 定義されていないものはそのまま返す
+            ret := c;
+    END CASE;
+    RETURN ret;
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;
+
+-- 全角カタカナ文字列を全角ひらがな文字列に変更する関数。
+CREATE FUNCTION zenkakukatakana2zenkakuhiragana_string (str TEXT)
+RETURNS TEXT AS $$
+DECLARE
+    ret TEXT;
+    i INTEGER := 1;
+    -- 何文字取るか
+    cap INTEGER := 1;
+BEGIN
+
+    WHILE i <= char_length(str)
+    LOOP
+        ret := concat(ret, zenkakukatakana2zenkakuhiragana(SUBSTRING(str, i, cap)));
+        -- 取った数だけ進める
+        i := i + cap;
+    END LOOP;
+
+    RETURN ret;
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;
+
 CREATE FUNCTION zenkaku2hankakukana (c CHAR)
 RETURNS VARCHAR(2) AS $$
 DECLARE
