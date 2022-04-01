@@ -22,7 +22,7 @@ DECLARE
     ret VARCHAR(2);
 BEGIN
 
-    CASE a
+    CASE c
         -- ア行
         WHEN 'ア' THEN
             ret := 'ｱ';
@@ -325,7 +325,7 @@ BEGIN
     END CASE;
     RETURN ret;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql IMMUTABLE;
 
 -- 全角文字列を半角文字列に変更する関数。
 CREATE FUNCTION zenkaku2hankakukana_string (str TEXT)
@@ -346,7 +346,7 @@ BEGIN
 
     RETURN ret;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql IMMUTABLE;
 
 
 -- 半角を全角に変更する
@@ -659,7 +659,7 @@ BEGIN
     END CASE;
     RETURN ret;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql IMMUTABLE;
 
 -- 合字（二つで一つの文字か判定）
 CREATE FUNCTION ligature (c VARCHAR(2))
@@ -680,7 +680,7 @@ BEGIN
 
     RETURN ret;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql IMMUTABLE;
 
 -- 半角文字列を全角文字列に変更する関数。
 CREATE FUNCTION hankakukana2zenkaku_string (str TEXT)
@@ -709,5 +709,5 @@ BEGIN
 
     RETURN ret;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql IMMUTABLE;
 
