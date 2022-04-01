@@ -1,0 +1,20 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql:8.0-oracle
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=J7vybovWx:3qstsj
+    volumes:
+      - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1

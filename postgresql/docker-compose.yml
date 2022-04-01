@@ -7,7 +7,10 @@ services:
     image: postgres:14.1-bullseye
     restart: always
     environment:
-      POSTGRES_PASSWORD: example
+      - POSTGRES_PASSWORD=J7vybovWx:3qstsj
+    volumes:
+      - ./docker/postgresql/initdb.d:/docker-entrypoint-initdb.d
+
 
   adminer:
     image: dpage/pgadmin4
